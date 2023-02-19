@@ -1,22 +1,16 @@
 # UnityHelpers
 
-UnityHelpers is a collection of scripts and tools for Unity game development.
+UnityHelpers is a public repository of scripts and tools for Unity game development. It contains a variety of helpful classes, extensions, and systems that are designed to make your Unity development process smoother and more efficient. Feel free to use it to streamline your workflow, improve the performance of your game, or simply learn new techniques and best practices.
 
 ## Folder Structure
 
-- `UnityHelpers/Extensions/Extensions.cs`: Contains extensions methods for various Unity classes.
+- `UnityHelpers/Extensions: Contains extensions methods for various Unity classes.
 
-- `UnityHelpers/Tools/Tools.cs`: Contains various utility classes and methods for Unity development.
+- `UnityHelpers/Tools`: Contains various utility classes and methods for Unity development.
 
-- `UnityHelpers/SystemExamples/GameModeExample`: Contains a sample game mode system, which demonstrates how to implement a basic game mode system in Unity.
+- `UnityHelpers/SystemExamples`: Contains folders for a variety of different example systems for a Unity project.
 
-- `UnityHelpers/Graph.cs`: Contains a class for creating graphs and performing graph-related operations.
-
-- `UnityHelpers/Handler.cs`: Contains a class for managing event subscriptions and handling events in Unity.
-
-- `UnityHelpers/Pool.cs`: Contains a class for managing object pooling in Unity.
-
-- `UnityHelpers/PriorityQueue.cs`: Contains a class for creating and managing priority queues in Unity.
+- `UnityHelpers/DataStructures`: Contains a variety of different data structures made for Unity development.
 
 ## Usage
 
