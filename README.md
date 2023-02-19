@@ -4,7 +4,7 @@ UnityHelpers is a public repository of scripts and tools for Unity game developm
 
 ## Folder Structure
 
-- `UnityHelpers/Extensions`: Contains extensions methods for various Unity classes.
+- `UnityHelpers/Extensions`: Contains extensions methods for various Unity classes/methods/generics/primitives.
 
 - `UnityHelpers/Tools`: Contains various utility classes and methods for Unity development.
 
