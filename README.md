@@ -18,4 +18,4 @@ To use any of the scripts or tools in UnityHelpers, simply copy the relevant fil
 
 ## License
 
-UnityHelpers is released under the [MIT License](LICENSE).
+UnityHelpers is released under the [MIT License](./LICENSE).
