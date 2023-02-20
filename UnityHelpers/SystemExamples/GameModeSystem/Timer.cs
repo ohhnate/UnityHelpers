@@ -1,5 +1,5 @@
 // Timer.cs - A simple timer class for managing time duration.
-// Version 1.0.0
+// Version 1.0.1
 // Author: Nate
 // Website: https://github.com/ohhnate
 //
@@ -12,49 +12,46 @@
 using UnityEngine;
 using System;
 
-public class Timer
+namespace UnityHelpers
 {
-    private readonly float duration;
-    private float timeElapsed;
-    public event Action OnTimerExpired;
-
-    public Timer(float duration)
+    public class Timer
     {
-        this.duration = duration;
-    }
+        private readonly float _duration;
+        private float _timeElapsed;
+        public event Action OnTimerExpired;
+        
+        public TimeSpan TimeElapsed => TimeSpan.FromSeconds(_timeElapsed);
 
-    public void Start()
-    {
-        timeElapsed = 0f;
-    }
+        public bool IsRunning => _timeElapsed < _duration;
 
-    public void Stop()
-    {
-        timeElapsed = duration;
-    }
-
-    public void Update()
-    {
-        timeElapsed += Time.deltaTime * Time.timeScale;
-
-        if (timeElapsed >= duration)
+        public Timer(TimeSpan duration)
         {
-            OnTimerExpired?.Invoke();
+            _duration = (float)duration.TotalSeconds;
         }
-    }
 
-    public float TimeElapsed
-    {
-        get { return timeElapsed; }
-    }
-    
-    public bool IsRunning
-    {
-        get { return timeElapsed < duration; }
-    }
+        public void Start()
+        {
+            _timeElapsed = 0f;
+        }
 
-    public void Reset()
-    {
-        timeElapsed = 0f;
+        public void Stop()
+        {
+            _timeElapsed = _duration;
+        }
+
+        public void Update()
+        {
+            _timeElapsed += Time.deltaTime * Time.timeScale;
+
+            if (_timeElapsed >= _duration)
+            {
+                OnTimerExpired?.Invoke();
+            }
+        }
+
+        public void Reset()
+        {
+            _timeElapsed = 0f;
+        }
     }
 }

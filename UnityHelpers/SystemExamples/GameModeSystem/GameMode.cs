@@ -1,5 +1,5 @@
 // GameMode.cs - An abstract class for creating custom game modes.
-// Version 1.0.0
+// Version 1.0.1
 // Author: Nate
 // Website: https://github.com/ohhnate
 //
@@ -11,90 +11,91 @@
 //
 // No accreditation is required but it would be highly appreciated <3
 
-public abstract class GameMode
+using System;
+
+namespace UnityHelpers
 {
-    public string Name { get; protected set; }
-    public int ScoreLimit { get; protected set; }
-    public TimeSpan TimeElapsed { get; set; }
-    public TimeSpan? TimeLimit { get; set; } = null;
-    public string OptionalParameter { get; set; } = "Default value";
-    public string WinConditionDisplay { get; protected set; }
-    
-    protected GameHandler gameHandler;
-    protected Scoreboard scoreboard;
-    protected Timer timer;
-    
-    public event Action OnGameStart;
-    public event Action OnGameEnd;
-    public event Action<Player> OnPlayerJoin;
-    public event Action<Player> OnPlayerLeave;
-    public event Action<int, int> OnScoreUpdated;
-    public event Action<TimeSpan> OnTimeUpdated;
-    
-    public GameMode(GameHandler gameHandler, Scoreboard scoreboard)
+    public abstract class GameMode
     {
-        this.gameHandler = gameHandler;
-        this.scoreboard = scoreboard;
-        if (TimeLimit.HasValue)
+        public string Name { get; protected set; }
+        public int ScoreLimit { get; protected set; }
+        public TimeSpan TimeElapsed { get; set; }
+        public TimeSpan? TimeLimit { get; set; }
+        public string WinConditionDisplay { get; protected set; }
+
+        protected GameHandler GameHandler;
+        protected readonly Scoreboard Scoreboard;
+        protected readonly Timer Timer;
+
+        public event Action OnGameStart;
+        public event Action OnGameEnd;
+        public event Action<Player> OnPlayerJoin;
+        public event Action<Player> OnPlayerLeave;
+        public event Action<int, int> OnScoreUpdated;
+        public event Action<TimeSpan> OnTimeUpdated;
+
+        public GameMode(GameHandler gameHandler, Scoreboard scoreboard)
         {
-            timer = new Timer(TimeLimit.Value);
-            timer.OnTimerExpired += EndGame;
-            timer.Start();
+            GameHandler = gameHandler;
+            Scoreboard = scoreboard;
+            if (!TimeLimit.HasValue) return;
+            
+            Timer = new Timer(TimeLimit.Value);
+            Timer.OnTimerExpired += End;
+            Timer.Start();
         }
-    }
 
-    public virtual void Start()
-    {
-        OnGameStart?.Invoke();
-        // Start the game mode
-    }
-
-    public virtual void End()
-    {
-        if (timer != null)
+        public virtual void Start()
         {
+            OnGameStart?.Invoke();
+            // Start the game mode
+        }
+
+        public virtual void End()
+        {
+            if (Timer == null) return;
+            
             OnGameEnd?.Invoke();
-            timer.Stop();
-            timer.OnTimerExpired -= EndGame;
+            Timer.Stop();
+            Timer.OnTimerExpired -= End;
         }
-    }
 
-    public virtual void Update()
-    {
-        if (timer != null)
+        public virtual void Update()
         {
-            timer.Update();
-            TimeElapsed = timer.TimeElapsed;
+            if (Timer == null) return;
+            
+            Timer.Update();
+            TimeElapsed = Timer.TimeElapsed;
             OnTimeUpdated?.Invoke(TimeElapsed);
+            // Update the game mode
         }
-        // Update the game mode
-    }
 
-    public virtual void OnPlayerScored(Player player)
-    {
-        scoreboard.AddScore(player);
-        OnScoreUpdated?.Invoke(scoreboard.GetScore(player), ScoreLimit);
-        if (scoreboard.GetScore(player) >= ScoreLimit)
+        public virtual void OnPlayerScored(Player player)
         {
-            EndGame();
+            Scoreboard.AddScore(player);
+            OnScoreUpdated?.Invoke(Scoreboard.GetScore(player), ScoreLimit);
+            if (Scoreboard.GetScore(player) >= ScoreLimit)
+            {
+                End();
+            }
+            // Handle a player scoring in the game mode
         }
-        // Handle a player scoring in the game mode
-    }
-    
-    public virtual void AddPlayer(Player player)
-    {
-        // invoke the OnPlayerJoin event to notify other systems that a new player has joined the game
-        OnPlayerJoin?.Invoke(player);
-    }
-    
-    public virtual void OnPlayerLeaveGame(Player player)
-    {
-        // invoke the OnPlayerLeave event to notify other systems that a player has left the game
-        OnPlayerLeave?.Invoke(player);
-    }
 
-    public virtual void OnPlayerDied(Player player)
-    {
-        // Handle a player dying in the game mode
+        public virtual void AddPlayer(Player player)
+        {
+            // invoke the OnPlayerJoin event to notify other systems that a new player has joined the game
+            OnPlayerJoin?.Invoke(player);
+        }
+
+        public virtual void OnPlayerLeaveGame(Player player)
+        {
+            // invoke the OnPlayerLeave event to notify other systems that a player has left the game
+            OnPlayerLeave?.Invoke(player);
+        }
+
+        public virtual void OnPlayerDied(Player player)
+        {
+            // Handle a player dying in the game mode
+        }
     }
 }

@@ -1,5 +1,5 @@
 // Scoreboard.cs - A class for managing player scores in a game mode.
-// Version 1.0.0
+// Version 1.0.1
 // Author: Nate
 // Website: https://github.com/ohhnate
 //
@@ -8,31 +8,37 @@
 //
 // No accreditation is required but it would be highly appreciated <3
 
-public class Scoreboard
+using System.Collections.Generic;
+
+namespace UnityHelpers
 {
-    private Dictionary<Player, int> scores;
-
-    public Scoreboard()
+    public class Scoreboard
     {
-        scores = new Dictionary<Player, int>();
-    }
+        private readonly Dictionary<Player, int> _scores;
 
-    public void AddScore(Player player)
-    {
-        if (!scores.ContainsKey(player))
+        public Scoreboard()
         {
-            scores[player] = 0;
+            _scores = new Dictionary<Player, int>();
         }
-        scores[player]++;
-    }
 
-    public int GetScore(Player player)
-    {
-        return scores.ContainsKey(player) ? scores[player] : 0;
-    }
+        public void AddScore(Player player)
+        {
+            if (!_scores.ContainsKey(player))
+            {
+                _scores[player] = 0;
+            }
 
-    public void ResetScores()
-    {
-        scores.Clear();
+            _scores[player]++;
+        }
+
+        public int GetScore(Player player)
+        {
+            return _scores.ContainsKey(player) ? _scores[player] : 0;
+        }
+
+        public void ResetScores()
+        {
+            _scores.Clear();
+        }
     }
 }

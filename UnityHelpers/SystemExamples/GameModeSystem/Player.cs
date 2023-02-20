@@ -1,5 +1,5 @@
 // Player.cs - A class representing a player in a game.
-// Version 1.0.0
+// Version 1.0.1
 // Author: Nate
 // Website: https://github.com/ohhnate
 //
@@ -9,14 +9,19 @@
 
 using UnityEngine;
 
-public class Player
+namespace UnityHelpers
 {
-    public string Name { get; }
-    public GameObject GameObject { get; }
-
-    public Player(GameObject gameObject, string name)
+    public class Player
     {
-        GameObject = gameObject;
-        Name = name;
+        public string Name { get; }
+        public Team Team { get; }
+        public GameObject GameObject { get; }
+
+        public Player(GameObject gameObject, string name, Team team)
+        {
+            GameObject = gameObject;
+            Name = name;
+            Team = team;
+        }
     }
 }
