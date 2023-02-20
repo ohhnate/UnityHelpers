@@ -1,5 +1,5 @@
 // Extensions.cs - A collection of extension methods for different primitives and generics.
-// Version 1.0.0
+// Version 1.0.1
 // Author: Nate
 // Website: https://github.com/ohhnate
 //
@@ -15,7 +15,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public static class Extensions
+internal static class Extensions
 {
     #region String Extensions
 

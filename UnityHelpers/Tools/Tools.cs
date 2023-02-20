@@ -1,17 +1,20 @@
 // Tools.cs - A static class with useful generic helper methods for a Unity project.
-// Version 1.0.0
+// Version 1.0.1
 // Author: Nate
 // Website: https://github.com/ohhnate
 //
 // This Tools class contains various generic static methods that can be useful in a Unity project.
 // No accreditation is required but it would be highly appreciated <3
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
-public static class Tools
+internal static class Tools
 {
     private static readonly Dictionary<float, WaitForSeconds> WaitDictionary = new();
     /// <summary>
@@ -26,6 +29,22 @@ public static class Tools
 
         WaitDictionary[time] = new WaitForSeconds(time);
         return WaitDictionary[time];
+    }
+    
+    private static readonly Dictionary<Func<bool>, WaitUntil> WaitUntilDictionary = new();
+
+    /// <summary>
+    /// Caches wait until conditions so you do not have to create new on Coroutines.
+    /// Reduces trash for the garbage collector
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns></returns>
+    public static WaitUntil GetWaitUntil(Func<bool> condition)
+    {
+        if (WaitUntilDictionary.TryGetValue(condition, out WaitUntil wait)) return wait;
+
+        WaitUntilDictionary[condition] = new WaitUntil(condition);
+        return WaitUntilDictionary[condition];
     }
 
     private static PointerEventData _eventDataCurrentPosition;
@@ -106,10 +125,11 @@ public static class Tools
     /// </summary>
     /// <param name="q1"></param>
     /// <param name="q2"></param>
+    /// <param name="threshold"></param>
     /// <returns></returns>
-    public static bool Approximately(Quaternion q1, Quaternion q2)
+    public static bool Approximately(Quaternion q1, Quaternion q2, float threshold = 0.1f)
     {
-        return Quaternion.Dot(q1, q2) > 1f - 0.0000004f;
+        return 1 - Mathf.Abs(Quaternion.Dot(q1, q2)) < threshold;
     }
 
     /// <summary>
@@ -117,10 +137,11 @@ public static class Tools
     /// </summary>
     /// <param name="v1"></param>
     /// <param name="v2"></param>
+    /// <param name="threshold"></param>
     /// <returns></returns>
-    public static bool Approximately(Vector3 v1, Vector3 v2)
+    public static bool Approximately(Vector3 v1, Vector3 v2, float threshold = 0.1f)
     {
-        return Vector3.Dot(v1, v2) > 1f - 0.0000004f;
+        return 1 - Mathf.Abs(Vector3.Dot(v1, v2)) < threshold;
     }
 
     /// <summary>
