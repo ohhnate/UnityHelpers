@@ -11,6 +11,7 @@
 // No accreditation is required but it would be highly appreciated <3
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace UnityHelpers.SystemExamples.Quest_AchievementSystem
@@ -19,10 +20,9 @@ namespace UnityHelpers.SystemExamples.Quest_AchievementSystem
     {
         private readonly List<Quest> _activeQuestsList = new();
         private readonly List<Quest> _completedQuestsList = new();
-        private readonly Dictionary<Quest, int> _questProgress = new();
         private readonly List<Quest> _availableQuestsList = new();
-        private readonly Dictionary<Quest, List<Quest>> _questDependenciesList = new();
         private readonly Dictionary<Quest, string> _questLog = new();
+        private readonly Dictionary<Quest, int> _questProgress = new();
 
         public void StartQuest(Quest quest)
         {
@@ -58,6 +58,11 @@ namespace UnityHelpers.SystemExamples.Quest_AchievementSystem
             quest.MarkCompleted();
         }
 
+        public void AddAvailableQuest(Quest quest)
+        {
+            _availableQuestsList.Add(quest);
+        }
+
         public bool IsQuestActive(Quest quest)
         {
             return _activeQuestsList.Contains(quest);
@@ -66,6 +71,14 @@ namespace UnityHelpers.SystemExamples.Quest_AchievementSystem
         public bool IsQuestCompleted(Quest quest)
         {
             return _completedQuestsList.Contains(quest);
+        }
+        
+        public List<Quest> GetQuestsByTitle(string title, bool includeActive = true, bool includeCompleted = true, bool includeAvailable = true)
+        {
+            IEnumerable<Quest> filteredList = _activeQuestsList.Where(quest => quest.Title == title && includeActive)
+                .Concat(_completedQuestsList.Where(quest => quest.Title == title && includeCompleted))
+                .Concat(_availableQuestsList.Where(quest => quest.Title == title && includeAvailable));
+            return new List<Quest>(filteredList);
         }
 
         public int GetQuestProgress(Quest quest)
@@ -88,11 +101,6 @@ namespace UnityHelpers.SystemExamples.Quest_AchievementSystem
             return new List<Quest>(_availableQuestsList);
         }
 
-        public List<Quest> GetDependencies(Quest quest)
-        {
-            return _questDependenciesList.ContainsKey(quest) ? _questDependenciesList[quest] : new List<Quest>();
-        }
-
         public string GetQuestLog(Quest quest)
         {
             return _questLog.ContainsKey(quest) ? _questLog[quest] : "";
@@ -100,14 +108,6 @@ namespace UnityHelpers.SystemExamples.Quest_AchievementSystem
 
         private void UpdateQuestProgress(Quest quest)
         {
-            // Check if the quest has dependent quests and update their progress first
-            if (_questDependenciesList.ContainsKey(quest))
-            {
-                foreach (Quest dependentQuest in _questDependenciesList[quest])
-                {
-                    UpdateQuestProgress(dependentQuest);
-                }
-            }
             // Check if the current quest is active
             if (!_activeQuestsList.Contains(quest)) return; // Do not update progress if the quest is not active
     

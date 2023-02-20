@@ -46,7 +46,9 @@ namespace UnityHelpers.SystemExamples.Quest_AchievementSystem
             // Adds references to the two Achievements to the Quest.
             myQuest.AddAchievement(new AchievementReference("Dragon Slayer"));
             myQuest.AddAchievement(new AchievementReference("Knight in Shining Armor"));
-        
+            
+            // Make the created quest an available quest to start.
+            QuestHandler.Instance.AddAvailableQuest(myQuest);
             // Starts the Quest through the QuestHandler.
             QuestHandler.Instance.StartQuest(myQuest);
         }
