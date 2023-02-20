@@ -55,6 +55,7 @@ namespace UnityHelpers.SystemExamples.Quest_AchievementSystem
 
             UpdateQuestLog(quest, $"Completed quest '{quest.Title}'.");
             UpdateQuestProgress(quest);
+            quest.MarkCompleted();
         }
 
         public bool IsQuestActive(Quest quest)
