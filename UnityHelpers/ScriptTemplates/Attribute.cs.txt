@@ -1,0 +1,16 @@
+//***
+// Author: 
+// Description: 
+//***
+
+using UnityEngine;
+
+    #ROOTNAMESPACEBEGIN#
+/// <summary>
+/// #NAME#
+/// </summary>
+public class #SCRIPTNAME# : PropertyAttribute
+{
+
+}
+#ROOTNAMESPACEEND#

@@ -1,0 +1,21 @@
+//***
+// Author: 
+// Description: 
+//***
+
+using UnityEngine;
+using UnityEditor;
+
+    #ROOTNAMESPACEBEGIN#
+/// <summary>
+/// #NAME#
+/// </summary>
+[CustomEditor(typeof(MonoBehaviour), true)]
+public class #SCRIPTNAME# : UnityEditor.Editor
+{
+    public override void OnInspectorGUI()
+    {
+        #NOTRIM#
+    }
+}
+#ROOTNAMESPACEEND#
