@@ -1,0 +1,17 @@
+//***
+// Author: 
+// Description: 
+//***
+
+using UnityEngine;
+
+    #ROOTNAMESPACEBEGIN#
+/// <summary>
+/// #NAME#
+/// </summary>
+[CreateAssetMenu(fileName = "", menuName = "")]
+public class #SCRIPTNAME# : ScriptableObject
+{
+
+}
+#ROOTNAMESPACEEND#
