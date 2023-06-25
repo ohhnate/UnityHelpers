@@ -1,0 +1,50 @@
+# Unity specific
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Uu]nityGenerated/
+/Assets/AssetStoreTools*
+
+# Visual Studio / MonoDevelop specific
+.vs/
+[Bb]uild[Bb]in/
+[Bb]uild[Oo]ut/
+[Bb]uild[Ss]tats/
+*.exe
+*.apk
+*.dll
+*.pdb
+*.mdb
+*.sln
+*.userprefs
+*.csproj
+*.unityproj
+*.suo
+*.sln.DotSettings.user
+*.sw*
+*.user
+*.unityproj
+*.booproj
+
+# OS generated files
+.DS_Store*
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+[Tt]humbs.db
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# Unity3D Generated Meta files
+*.pidb.meta
+
+# macOS specific
+.DS_Store

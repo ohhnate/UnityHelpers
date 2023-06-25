@@ -1,0 +1,3 @@
+# Unity YAML
+*.yml merge=unityyamlmerge eol=lf
+*.unity merge=unityyamlmerge eol=lf
